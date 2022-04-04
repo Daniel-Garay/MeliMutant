@@ -1,69 +1,132 @@
-# ASP.NET Core Web API Serverless Application
+﻿# Examen Mercadolibre
+Magneto quiere reclutar la mayor cantidad de mutantes para poder luchar
+contra los X-Mens.
+Te ha contratado a ti para que desarrolles un proyecto que detecte si un
+humano es mutante basándose en su secuencia de ADN.
+Para eso te ha pedido crear un programa con un método o función con la siguiente firma:
 
-This project shows how to run an ASP.NET Core Web API project as an AWS Lambda exposed through Amazon API Gateway. The NuGet package [Amazon.Lambda.AspNetCoreServer](https://www.nuget.org/packages/Amazon.Lambda.AspNetCoreServer) contains a Lambda function that is used to translate requests from API Gateway into the ASP.NET Core framework and then the responses from ASP.NET Core back to API Gateway.
+## boolean isMutant(String[] dna);
+
+En donde recibirás como parámetro un array de Strings que representan cada fila de una tabla
+de (NxN) con la secuencia del ADN. Las letras de los Strings solo pueden ser: (A,T,C,G), las
+cuales representa cada base nitrogenada del ADN.
+
+![enter image description here](https://fotos.subefotos.com/861243f53091dc5758f70d9e73b3ec44o.jpg)
+
+## No-Mutante Mutante
+
+Sabrás si un humano es mutante, si encuentras más de una secuencia de cuatro letras
+iguales, de forma oblicua, horizontal o vertical.
+Ejemplo (Caso mutante):
+String[] dna = {"ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"};
+En este caso el llamado a la función isMutant(dna) devuelve “true”.
+Desarrolla el algoritmo de la manera más eficiente posible.
+
+## Desafíos:
+### Nivel 1:
+Programa (en cualquier lenguaje de programación) que cumpla con el método pedido por
+Magneto.
+### Nivel 2:
+Crear una API REST, hostear esa API en un cloud computing libre (Google App Engine,
+Amazon AWS, etc), crear el servicio “/mutant/” en donde se pueda detectar si un humano es
+mutante enviando la secuencia de ADN mediante un HTTP POST con un Json el cual tenga el
+siguiente formato:
+POST → /mutant/
+{
+“dna”:["ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"]
+}
+En caso de verificar un mutante, debería devolver un HTTP 200-OK, en caso contrario un
+403-Forbidden
 
 
-For more information about how the Amazon.Lambda.AspNetCoreServer package works and how to extend its behavior view its [README](https://github.com/aws/aws-lambda-dotnet/blob/master/Libraries/src/Amazon.Lambda.AspNetCoreServer/README.md) file in GitHub.
+# Resolución
+
+### Nivel 1:
+Se propone implementar como solución agrupar de 4 caracteres y preguntar si son iguales, por medio de la función isEqual(char a, char b, char c, char d). Para evitar utilizar matrices y reducir espacio en memoria, se recorre Dna por medio de dos for, donde “i” determina la posición dentro del array y “j” posiciones dentro del string mediante el método charAt.
+
+A partir de una posición se analiza fila, columna, diagonal y diagonal invertida, para la misma letra inicial.
+
+Además se valida Dna recibido, para que las cadenas de ADN sean mayores o iguales a 4, que la longitud del String sea igual al tamaño del Array (NxN) y las letras permitidas A, T, C,  y G.
+
+#### Tecnología Utilizada
+- Netbeans IDE 8.2
+- Java 7
+- Jdk 1.8
+- Maven
+- Tomcat 8
+- Google Cloud
+
+### Nivel 2:
+
+#### Url Api Google Cloud Apache Tomcat/8.5.14 (Debian)
+http://35.223.43.127/MagnetoRecruit/mutant/isMutant
+
+##### Metodo Get
+
+Estado HTTP 501 – Not Implemented
 
 
-### Configuring for API Gateway HTTP API ###
+##### Metodo Post
 
-API Gateway supports the original REST API and the new HTTP API. In addition HTTP API supports 2 different
-payload formats. When using the 2.0 format the base class of `LambdaEntryPoint` must be `Amazon.Lambda.AspNetCoreServer.APIGatewayHttpApiV2ProxyFunction`.
-For the 1.0 payload format the base class is the same as REST API which is `Amazon.Lambda.AspNetCoreServer.APIGatewayProxyFunction`.
-**Note:** when using the `AWS::Serverless::Function` CloudFormation resource with an event type of `HttpApi` the default payload
-format is 2.0 so the base class of `LambdaEntryPoint` must be `Amazon.Lambda.AspNetCoreServer.APIGatewayHttpApiV2ProxyFunction`.
+Content-Type: application/json
 
-
-### Configuring for Application Load Balancer ###
-
-To configure this project to handle requests from an Application Load Balancer instead of API Gateway change
-the base class of `LambdaEntryPoint` from `Amazon.Lambda.AspNetCoreServer.APIGatewayProxyFunction` to 
-`Amazon.Lambda.AspNetCoreServer.ApplicationLoadBalancerFunction`.
-
-### Project Files ###
-
-* serverless.template - an AWS CloudFormation Serverless Application Model template file for declaring your Serverless functions and other AWS resources
-* aws-lambda-tools-defaults.json - default argument settings for use with Visual Studio and command line deployment tools for AWS
-* LambdaEntryPoint.cs - class that derives from **Amazon.Lambda.AspNetCoreServer.APIGatewayProxyFunction**. The code in 
-this file bootstraps the ASP.NET Core hosting framework. The Lambda function is defined in the base class.
-Change the base class to **Amazon.Lambda.AspNetCoreServer.ApplicationLoadBalancerFunction** when using an 
-Application Load Balancer.
-* LocalEntryPoint.cs - for local development this contains the executable Main function which bootstraps the ASP.NET Core hosting framework with Kestrel, as for typical ASP.NET Core applications.
-* Startup.cs - usual ASP.NET Core Startup class used to configure the services ASP.NET Core will use.
-* web.config - used for local development.
-* Controllers\ValuesController - example Web API controller
-
-You may also have a test project depending on the options selected.
-
-## Here are some steps to follow from Visual Studio:
-
-To deploy your Serverless application, right click the project in Solution Explorer and select *Publish to AWS Lambda*.
-
-To view your deployed application open the Stack View window by double-clicking the stack name shown beneath the AWS CloudFormation node in the AWS Explorer tree. The Stack View also displays the root URL to your published application.
-
-## Here are some steps to follow to get started from the command line:
-
-Once you have edited your template and code you can deploy your application using the [Amazon.Lambda.Tools Global Tool](https://github.com/aws/aws-extensions-for-dotnet-cli#aws-lambda-amazonlambdatools) from the command line.
-
-Install Amazon.Lambda.Tools Global Tools if not already installed.
+Request Mutante Permitido
+```json
+{
+    "dna": [
+        "ATGCGA",
+        "CAGTGC",
+        "TTATGT",
+        "AGAAGG",
+        "CCCCTA",
+        "TCACTG"
+    ]
+}
 ```
-    dotnet tool install -g Amazon.Lambda.Tools
-```
+Response Status: 200 OK
 
-If already installed check if new version is available.
+Request Humano Permitido
+```json
+{
+    "dna": [
+        "TTGCGA",
+        "CAGTGC",
+        "TTATGT",
+        "AGAAGG",
+        "CCTCTA",
+        "TCACTG"
+    ]
+}
 ```
-    dotnet tool update -g Amazon.Lambda.Tools
-```
+Response Status: 403 Forbidden
 
-Execute unit tests
+Request Rechazado
+```json
+{
+    "dna": [
+        "TTHCGA",
+        "CAG1GC",
+        "TTAGT",
+        "AGAAGG",
+        "CCTCTA",
+        "TCACTG"
+    ]
+}
 ```
-    cd "MLMutant/test/MLMutant.Tests"
-    dotnet test
-```
+Response Status: 400 Bad Request
 
-Deploy application
+
+Request Rechazado (Error Json)
+```json
+{
+    "dnaa": [
+        "TTHCGA",
+        "CAG1GC",
+        "TTAGT",
+        "AGAAGG",
+        "CCTCTA",
+        "TCACTG"
+    ]
+}
 ```
-    cd "MLMutant/src/MLMutant"
-    dotnet lambda deploy-serverless
-```
+Response Status: 400 Bad Request

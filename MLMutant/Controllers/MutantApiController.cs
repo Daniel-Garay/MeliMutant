@@ -10,6 +10,7 @@ namespace MLMutant.Controllers
     public class MutantApiController : ControllerBase
     {
         private readonly IMutantDetectorService _mutantDetectorService;
+        DynamoDB dynamoDB = new DynamoDB();
 
         public MutantApiController(IMutantDetectorService shoppingListService)
         {
@@ -19,6 +20,7 @@ namespace MLMutant.Controllers
         [HttpPost]
         public IActionResult isMutant([FromBody] Mutant mutant)
         {
+            dynamoDB.init();
             bool IsMutant = _mutantDetectorService.IsMutant(mutant.DNA);
             if (IsMutant)
                 return Ok();
