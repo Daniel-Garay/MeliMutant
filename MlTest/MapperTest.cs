@@ -11,6 +11,7 @@ namespace MlTest
         {
             var services = new ServiceCollection();
             services.AddTransient<IMapper, Mapper>();
+            services.AddTransient<IMutantDetectorService, MutantDetectorService>();
             var serviceProvider = services.BuildServiceProvider();
             _mapper = serviceProvider.GetService<IMapper>();
         }

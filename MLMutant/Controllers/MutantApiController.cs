@@ -18,13 +18,20 @@ namespace MLMutant.Controllers
         [HttpPost]
         public IActionResult isMutant([FromBody] Mutant mutant)
         {
-            var newMutant = _mapper.convert(mutant);
-            _dynamoDB.CreateMutant(newMutant);
-            _dynamoDB.UpdateStats(newMutant.IsMutant);
-            if (newMutant.IsMutant)
-                return Ok();
-            else
-                return StatusCode(403);
+            try
+            {
+                var newMutant = _mapper.convert(mutant);
+                _dynamoDB.CreateMutant(newMutant);
+                _dynamoDB.UpdateStats(newMutant.IsMutant);
+                if (newMutant.IsMutant)
+                    return Ok();
+                else
+                    return StatusCode(403);
+            }
+            catch (ArgumentException e)
+            {
+                return StatusCode(400, e.Message);
+            }
         }
         [Route("stats")]
         [HttpGet]

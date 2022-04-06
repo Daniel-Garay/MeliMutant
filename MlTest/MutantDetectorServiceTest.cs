@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using MLMutant.Services;
+using System;
 using Xunit;
 
 namespace MlTest
@@ -15,18 +16,37 @@ namespace MlTest
             _mutantDetectorService = serviceProvider.GetService<IMutantDetectorService>();
         }
         [Fact]
-        public void IsNotMutant()
+        public void IsHuman()
         {
             string[] DNA = { "ATGCGA", "CAGTGC", "TTATTT", "AGACGG", "GCGTCA", "TCACTG" };
-            bool IsMutant = _mutantDetectorService.IsMutant(DNA);
-            Assert.False(IsMutant);
+            Assert.False(_mutantDetectorService.IsMutant(DNA));
         }
         [Fact]
         public void IsMutant()
         {
             string[] DNA = { "ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG" };
-            bool IsMutant = _mutantDetectorService.IsMutant(DNA);
-            Assert.True(IsMutant);
+            Assert.True(_mutantDetectorService.IsMutant(DNA));
+        }
+
+        [Fact]
+        public void EmptyArray()
+        {
+            string[] DNA = { };
+            Assert.False(_mutantDetectorService.IsMutant(DNA));
+        }
+
+        [Fact]
+        public void NullArray()
+        {
+            string[] DNA = null;
+            Assert.Throws<ArgumentNullException>(() => _mutantDetectorService.IsMutant(DNA));
+        }
+
+        [Fact]
+        public void BadArraySize()
+        {
+            string[] DNA = { "ATGCG", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG" };
+            Assert.Throws<ArgumentException>(() => _mutantDetectorService.IsMutant(DNA));
         }
     }
 }
