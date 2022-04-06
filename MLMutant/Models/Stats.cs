@@ -2,9 +2,8 @@
 
 namespace MLMutant.Models
 {
-    [DynamoDBTable("Mutant")]
-
-    public class Mutant
+    [DynamoDBTable("Stats")]
+    public class Stats
     {
         [DynamoDBHashKey]
         public string Id
@@ -12,9 +11,6 @@ namespace MLMutant.Models
             get; set;
         }
         [DynamoDBProperty]
-        public string[] DNA { get; set; }
-
-        [DynamoDBProperty]
-        public bool IsMutant { get; set; }
+        public int Quantity { get; set; }
     }
 }

@@ -13,5 +13,5 @@
     "template"      : "serverless.template",
     "template-parameters" : "",
     "s3-bucket"           : "backendstore-dev-serverlessdeploymentbucket-1pmjq0geomx9d",
-    "stack-name"          : "ShoppingStack"
+    "stack-name"          : "MlStackName"
 }

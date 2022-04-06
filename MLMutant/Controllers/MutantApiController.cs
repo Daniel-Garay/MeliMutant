@@ -1,31 +1,41 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MLMutant.Services;
-using MLMutant.Models;
+using MLMutant.Models.ApiModels;
+
+
+
 
 namespace MLMutant.Controllers
 {
-    [Route("Mutant")]
+    
     [ApiController]
     public class MutantApiController : ControllerBase
     {
-        private readonly IMutantDetectorService _mutantDetectorService;
-        DynamoDB dynamoDB = new DynamoDB();
-
-        public MutantApiController(IMutantDetectorService shoppingListService)
+        private readonly IDynamoDB _dynamoDB;
+        private readonly IMapper _mapper;
+        public MutantApiController(IDynamoDB dynamoDB, IMapper mapper)
         {
-            _mutantDetectorService = shoppingListService;
+            _dynamoDB = dynamoDB;
+            _mapper = mapper;
         }
-
+        [Route("Mutant")]
         [HttpPost]
         public IActionResult isMutant([FromBody] Mutant mutant)
         {
-            dynamoDB.init();
-            bool IsMutant = _mutantDetectorService.IsMutant(mutant.DNA);
-            if (IsMutant)
+            var newMutant = _mapper.convert(mutant);
+            _dynamoDB.CreateMutant(newMutant);
+            _dynamoDB.UpdateStats(newMutant.IsMutant);
+            if (newMutant.IsMutant)
                 return Ok();
             else
                 return StatusCode(403);
+        }
+        [Route("stats")]
+        [HttpGet]
+        public async  Task<IActionResult> stats()
+        {
+            return Ok(await _dynamoDB.GetMutantStats());
         }
     }
 }

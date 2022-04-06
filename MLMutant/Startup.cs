@@ -17,6 +17,8 @@ public class Startup
     {
         services.AddControllers();
         services.AddSingleton<IMutantDetectorService, MutantDetectorService>();
+        services.AddSingleton<IDynamoDB, DynamoDB>();
+        services.AddTransient<IMapper, Mapper>();
         services.AddAuthentication(IISDefaults.AuthenticationScheme);
     }
 
