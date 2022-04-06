@@ -1,9 +1,7 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
-
 namespace MLMutant.Models
 {
     [DynamoDBTable("Mutant")]
-
     public class Mutant
     {
         [DynamoDBHashKey]

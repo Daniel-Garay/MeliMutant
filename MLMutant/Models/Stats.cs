@@ -1,5 +1,4 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
-
 namespace MLMutant.Models
 {
     [DynamoDBTable("Stats")]

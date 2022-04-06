@@ -3,7 +3,6 @@ using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
 using Amazon.Runtime.CredentialManagement;
 using MLMutant.Models;
-
 namespace MLMutant.Services
 {
     public class DynamoDB : IDynamoDB

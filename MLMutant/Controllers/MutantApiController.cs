@@ -1,14 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MLMutant.Services;
 using MLMutant.Models.ApiModels;
-
-
-
-
 namespace MLMutant.Controllers
 {
-    
+
     [ApiController]
     public class MutantApiController : ControllerBase
     {
@@ -33,7 +28,7 @@ namespace MLMutant.Controllers
         }
         [Route("stats")]
         [HttpGet]
-        public async  Task<IActionResult> stats()
+        public async Task<IActionResult> stats()
         {
             return Ok(await _dynamoDB.GetMutantStats());
         }

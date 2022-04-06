@@ -3,8 +3,9 @@
     public class Mapper : IMapper
     {
         private readonly IMutantDetectorService _mutantDetectorService;
-        public Mapper(IMutantDetectorService mutantDetectorService) {
-            _mutantDetectorService=mutantDetectorService ?? throw new ArgumentNullException(nameof(mutantDetectorService));
+        public Mapper(IMutantDetectorService mutantDetectorService)
+        {
+            _mutantDetectorService = mutantDetectorService ?? throw new ArgumentNullException(nameof(mutantDetectorService));
         }
         public MLMutant.Models.Mutant convert(MLMutant.Models.ApiModels.Mutant mutant)
         {
@@ -14,7 +15,6 @@
                 DNA = mutant.DNA,
                 IsMutant = _mutantDetectorService.IsMutant(mutant.DNA)
             };
-
             return newMutant;
         }
     }
