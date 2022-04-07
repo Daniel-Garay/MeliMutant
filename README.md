@@ -33,18 +33,22 @@ En este caso el llamado a la función isMutant(dna) devuelve “true”.
 Desarrolla el algoritmo de la manera más eficiente posible
 
 ## Desafíos:
+
 ### Nivel 1:
 Programa (en cualquier lenguaje de programación) que cumpla con el método pedido por
 Magneto.
+
 ### Nivel 2:
 Crear una API REST, hostear esa API en un cloud computing libre (Google App Engine,
 Amazon AWS, etc), crear el servicio “/mutant/” en donde se pueda detectar si un humano es
 mutante enviando la secuencia de ADN mediante un HTTP POST con un Json el cual tenga el
 siguiente formato:
+
 POST → /mutant/
 {
 “dna”:["ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"]
 }
+
 En caso de verificar un mutante, debería devolver un HTTP 200-OK, en caso contrario un
 403-Forbidden
 
@@ -59,7 +63,7 @@ url : https://xbezbfk0i4.execute-api.sa-east-1.amazonaws.com/Prod/stats
 ###  Verificación de mutante:
 
 Verbo Http : Post
-url : https://xbezbfk0i4.execute-api.sa-east-1.amazonaws.com/Prod/stats
+url : https://xbezbfk0i4.execute-api.sa-east-1.amazonaws.com/Prod/mutant
 
 
 ##### Metodo Post
@@ -93,7 +97,7 @@ Request Humano
         "TCACTG"
     ]
 }
-
+```
 Response Status: 400 Bad Request
 
 Request Rechazado (Error Json)
@@ -112,9 +116,8 @@ Request Rechazado (Error Json)
 Response Status: 400 Bad Request
 
 #### Tecnología Utilizada
-- Netbeans IDE 8.2
-- Java 7
-- Jdk 1.8
-- Maven
-- Tomcat 8
-- Google Cloud
+- .Net Core
+-  AWS
+-  ApiRest
+-  Funciones Lambda
+-  Dynamo DB
