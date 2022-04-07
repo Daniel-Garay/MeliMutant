@@ -7,6 +7,9 @@ using Amazon.Runtime.CredentialManagement;
 using MLMutant.Models;
 namespace MLMutant.Services
 {
+    /// <summary>
+    /// This class helps us to connect to DynamoDB
+    /// </summary>
     public class DynamoDB : IDynamoDB
     {
         private DynamoDBContext context;
@@ -24,10 +27,18 @@ namespace MLMutant.Services
             client = new AmazonDynamoDBClient(credentials, config);
             context = new DynamoDBContext(client);
         }
+        /// <summary>
+        ///  create a mutant in DynamoDB
+        /// </summary>
+        /// <param name="mutant"></param>
         public async void CreateMutant(Mutant mutant)
         {
             await context.SaveAsync(mutant);
         }
+        /// <summary>
+        /// Returns the statistics saved in DynamoDB
+        /// </summary>
+        /// <returns></returns>
         public async Task<MLMutant.Models.ApiModels.Stats> GetMutantStats()
         {
             Stats Mutant = await context.LoadAsync<Stats>("Mutant");
@@ -40,6 +51,10 @@ namespace MLMutant.Services
                 ratio = (decimal)Mutant.Quantity / (decimal)Human.Quantity,
             };
         }
+        /// <summary>
+        /// Update statistics in DynamoDB
+        /// </summary>
+        /// <param name="isMutant"></param>
         public async void UpdateStats(bool isMutant)
         {
             UpdateItemRequest updateRequest = new UpdateItemRequest()

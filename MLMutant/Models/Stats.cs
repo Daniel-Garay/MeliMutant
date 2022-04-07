@@ -1,6 +1,9 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 namespace MLMutant.Models
 {
+    /// <summary>
+    ///  This  class represents the statistics of DynamoD
+    /// </summary>
     [DynamoDBTable("Stats")]
     public class Stats
     {

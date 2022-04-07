@@ -5,6 +5,9 @@ using Xunit;
 
 namespace MlTest
 {
+    /// <summary>
+    /// This test check possible  response the interface MutantDetectorService
+    /// </summary>
     public class MutantDetectorServiceTest
     {
         private readonly IMutantDetectorService _mutantDetectorService;
@@ -15,19 +18,27 @@ namespace MlTest
             var serviceProvider = services.BuildServiceProvider();
             _mutantDetectorService = serviceProvider.GetService<IMutantDetectorService>();
         }
+        /// <summary>
+        /// Verify that it is human, return false
+        /// </summary>
         [Fact]
         public void IsHuman()
         {
             string[] DNA = { "ATGCGA", "CAGTGC", "TTATTT", "AGACGG", "GCGTCA", "TCACTG" };
             Assert.False(_mutantDetectorService.IsMutant(DNA));
         }
+        /// <summary>
+        /// Verify that it is mutant, return true
+        /// </summary>
         [Fact]
         public void IsMutant()
         {
             string[] DNA = { "ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG" };
             Assert.True(_mutantDetectorService.IsMutant(DNA));
         }
-
+        /// <summary>
+        /// Verify that it is array Empty, return false
+        /// </summary>
         [Fact]
         public void EmptyArray()
         {
@@ -35,6 +46,9 @@ namespace MlTest
             Assert.False(_mutantDetectorService.IsMutant(DNA));
         }
 
+        /// <summary>
+        /// Verify that it is null, return execption ArgumentNullException
+        /// </summary>
         [Fact]
         public void NullArray()
         {
@@ -42,6 +56,9 @@ namespace MlTest
             Assert.Throws<ArgumentNullException>(() => _mutantDetectorService.IsMutant(DNA));
         }
 
+        /// <summary>
+        /// Verify that it is array wrong size, return execption ArgumentException
+        /// </summary>
         [Fact]
         public void BadArraySize()
         {

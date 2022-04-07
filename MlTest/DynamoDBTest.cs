@@ -5,6 +5,9 @@ using Xunit;
 
 namespace MlTest
 {
+    /// <summary>
+    /// This test check the connection with dynamoDB
+    /// </summary>
     public class DynamoDBTest
     {
         private readonly IDynamoDB _dynamoDB;
@@ -16,7 +19,9 @@ namespace MlTest
             var serviceProvider = services.BuildServiceProvider();
             _dynamoDB = serviceProvider.GetService<IDynamoDB>();
         }
-
+        /// <summary>
+        /// Check that a mutant can be saved
+        /// </summary>
         [Fact]
         public void CreateMutant()
         {
@@ -28,13 +33,18 @@ namespace MlTest
             };
             _dynamoDB.CreateMutant(mutant);
         }
+        /// <summary>
+        ///  Check that the statistics can be updated
+        /// </summary>
         [Fact]
         public void UpdateStats()
         {
             bool isMutant = true;
             _dynamoDB.UpdateStats(isMutant);
         }
-
+        /// <summary>
+        ///  Check that the statistics can be consulted
+        /// </summary>
         [Fact]
         public async void GetMutantStats()
         {

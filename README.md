@@ -15,7 +15,7 @@ En donde recibirás como parámetro un array de Strings que representan cada fil
 de (NxN) con la secuencia del ADN. Las letras de los Strings solo pueden ser: (A,T,C,G), las
 cuales representa cada base nitrogenada del ADN.
 
-![enter image description here](https://drive.google.com/file/d/1nvA9bnl1XUawFDf_WmzdpCzR7RBUKoPH/view?usp=sharing)
+![enter image description here](https://i.postimg.cc/WzX6zpJJ/Ejemplo.png)
 
 
 Sabrás si un humano es mutante, si encuentras más de una secuencia de cuatro letras
@@ -103,7 +103,7 @@ Response Status: 400 Bad Request
 Request Rechazado (Error Json)
 ```json
 {
-    "dnaa": [
+    "dna": [
         "TTHCG",
         "CAG1GC",
         "TTATGT",

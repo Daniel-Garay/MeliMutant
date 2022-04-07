@@ -4,6 +4,9 @@ using Xunit;
 
 namespace MlTest
 {
+    /// <summary>
+    /// Verify that Mutant request can be converted without error
+    /// </summary>
     public class MapperTest
     {
         private readonly IMapper _mapper;
@@ -15,6 +18,9 @@ namespace MlTest
             var serviceProvider = services.BuildServiceProvider();
             _mapper = serviceProvider.GetService<IMapper>();
         }
+        /// <summary>
+        /// Verify that Mutant request can be converted without error
+        /// </summary>
         [Fact]
         public void convertMutant()
         {
