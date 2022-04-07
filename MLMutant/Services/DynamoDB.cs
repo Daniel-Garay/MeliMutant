@@ -1,6 +1,8 @@
-﻿using Amazon.DynamoDBv2;
+﻿using Amazon;
+using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
+using Amazon.Runtime;
 using Amazon.Runtime.CredentialManagement;
 using MLMutant.Models;
 namespace MLMutant.Services
@@ -11,10 +13,15 @@ namespace MLMutant.Services
         private AmazonDynamoDBClient client;
         public DynamoDB()
         {
-            var sharedFile = new SharedCredentialsFile();
-            sharedFile.TryGetProfile("Developer", out var profile);
-            AWSCredentialsFactory.TryGetAWSCredentials(profile, sharedFile, out var credentials);
-            client = new AmazonDynamoDBClient(credentials, Amazon.RegionEndpoint.SAEast1);
+            string accessKey = Environment.GetEnvironmentVariable("accessKey");
+            string secretKey = Environment.GetEnvironmentVariable("secretKey");
+
+            var credentials = new BasicAWSCredentials(accessKey, secretKey);
+            var config = new AmazonDynamoDBConfig()
+            {
+                RegionEndpoint = RegionEndpoint.SAEast1
+            };
+            client = new AmazonDynamoDBClient(credentials, config);
             context = new DynamoDBContext(client);
         }
         public async void CreateMutant(Mutant mutant)
