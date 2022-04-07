@@ -103,7 +103,7 @@ Response Status: 400 Bad Request
 Request Rechazado (Error Json)
 ```json
 {
-    "dnaa": [
+    "dna": [
         "TTHCG",
         "CAG1GC",
         "TTATGT",
