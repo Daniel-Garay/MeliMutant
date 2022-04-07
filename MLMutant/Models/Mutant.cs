@@ -1,6 +1,9 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 namespace MLMutant.Models
 {
+    /// <summary>
+    ///  This class represents mutans in DynamoD
+    /// </summary>
     [DynamoDBTable("Mutant")]
     public class Mutant
     {
